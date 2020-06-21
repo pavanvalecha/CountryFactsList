@@ -8,4 +8,33 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="ItemTitleText">
+        <item name="android:layout_marginStart">@dimen/dimen_15</item>
+        <item name="android:layout_marginTop">@dimen/dimen_15</item>
+        <item name="android:layout_marginEnd">@dimen/dimen_10</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:textColor">@color/listItemTitle</item>
+        <item name="android:textSize">26sp</item>
+    </style>
+
+    <style name="ItemDescText">
+        <item name="android:layout_marginStart">@dimen/dimen_15</item>
+        <item name="android:layout_marginTop">@dimen/dimen_10</item>
+        <item name="android:textColor">@color/listItemDescription</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="ItemImage">
+        <item name="android:layout_marginTop">@dimen/dimen_15</item>
+        <item name="android:layout_marginEnd">@dimen/dimen_15</item>
+        <item name="android:layout_marginBottom">@dimen/dimen_15</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
+    <style name="RecycleViewStyle">
+        <item name="android:clipToPadding">false</item>
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:paddingTop">@dimen/dimen_5</item>
+    </style>
+
 </resources>

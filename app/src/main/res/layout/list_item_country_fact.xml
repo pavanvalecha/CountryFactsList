@@ -13,7 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:padding="@dimen/dimen_10"
         tools:context=".view.MainActivity">
 
         <TextView
@@ -21,15 +21,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@{fact.title}"
-            android:textColor="@color/listItemTitle"
-            android:textSize="26sp"
+            style="@style/ItemTitleText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/dimen_10"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -48,16 +47,16 @@
                 android:layout_alignParentTop="true"
                 android:layout_toStartOf="@+id/thumbImageView"
                 android:layout_toLeftOf="@+id/thumbImageView"
-                android:textColor="@color/listItemDescription"
-                android:textSize="22sp"
+                style="@style/ItemDescText"
                 android:text="@{fact.description}" />
 
             <ImageView
                 android:id="@+id/thumbImageView"
-                android:layout_width="125dp"
+                android:layout_width="150dp"
                 android:layout_height="125dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
+                style="@style/ItemImage"
                 android:imageUrl="@{fact.imageHref}" />
 
         </RelativeLayout>
