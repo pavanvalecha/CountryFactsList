@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_country_list.*
+import org.koin.android.viewmodel.ext.android.getViewModel
 import prv.com.countryfacts.R
 import prv.com.countryfacts.models.CountryFact
 import prv.com.countryfacts.view.adapter.CountryFactsListAdapter
@@ -29,8 +29,7 @@ class CountryListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this).get(CountryListViewModel::class.java)
-        viewModel.refresh()
+        viewModel = getViewModel<CountryListViewModel>().apply { refresh() }
 
         countryRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)

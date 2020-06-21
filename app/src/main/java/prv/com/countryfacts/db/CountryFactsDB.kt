@@ -9,23 +9,5 @@ import prv.com.countryfacts.models.CountryFact
 
 @Database(entities = arrayOf(CountryDataEntity::class, CountryFactEntity::class), version = 1, exportSchema = false)
 abstract class CountryFactsDB : RoomDatabase(){
-
     abstract fun countryDataDAO(): CountryDataDAO
-
-    companion object{
-        @Volatile private var instance: CountryFactsDB? = null
-        private val LOCK = Any()
-
-        operator fun invoke(context: Context) = instance ?: synchronized(LOCK){
-            instance ?: buildDatabase(context).also { instance = it }
-        }
-
-        private fun buildDatabase(context: Context) = Room.databaseBuilder(
-                context.applicationContext,
-                CountryFactsDB::class.java,
-            "countryfactsdatabase"
-                ).build()
-
-    }
-
 }

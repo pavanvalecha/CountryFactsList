@@ -10,19 +10,17 @@ import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.launch
 import prv.com.countryfacts.base.BaseViewModel
-import prv.com.countryfacts.db.CountryFactsDB
+import prv.com.countryfacts.db.CountryDataDAO
 import prv.com.countryfacts.models.CountryData
-import prv.com.countryfacts.models.CountryFact
-import prv.com.countryfacts.remote.CountryFactsAPIService
+import prv.com.countryfacts.remote.CountryFactsAPI
 import prv.com.countryfacts.util.SharedPreferenceHelper
 
-class CountryListViewModel(application: Application) : BaseViewModel(application) {
+class CountryListViewModel(application: Application,
+                           val countryFactsAPI: CountryFactsAPI,
+                           val countryDataDAO: CountryDataDAO) : BaseViewModel(application) {
 
     private var refreshTime = 2 * 60 * 1000 * 1000 * 1000L
-
     private val disposable = CompositeDisposable()
-    private val countryFactsAPIService = CountryFactsAPIService()
-
     private var prefHelper = SharedPreferenceHelper(getApplication())
 
     val countryData = MutableLiveData<CountryData>()
@@ -41,7 +39,7 @@ class CountryListViewModel(application: Application) : BaseViewModel(application
 
     private fun fetchFromRemote(){
         disposable.add(
-            countryFactsAPIService.getCountryFactsData().subscribeOn(Schedulers.newThread())
+            countryFactsAPI.getCountryFactData().subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith( object: DisposableSingleObserver<CountryData>(){
                     override fun onSuccess(data: CountryData) {
@@ -62,8 +60,7 @@ class CountryListViewModel(application: Application) : BaseViewModel(application
 
     private fun storeCountryDataDB(countryData: CountryData){
         launch {
-            val dao = CountryFactsDB.invoke(getApplication()).countryDataDAO()
-            val insertedid = dao.insertFactsAndData(countryData)
+            val insertedid = countryDataDAO.insertFactsAndData(countryData)
             prefHelper.saveUpdateTime(System.nanoTime())
             Log.d("storeCountryDataDB()", "Inserted CountryData with ID - $insertedid")
         }
@@ -72,7 +69,7 @@ class CountryListViewModel(application: Application) : BaseViewModel(application
     private fun fetchFromDB(){
         loading.value = true
         launch {
-            val countryData = CountryFactsDB(getApplication()).countryDataDAO().getCountryDataDB()
+            val countryData = countryDataDAO.getCountryDataDB()
             countryDatasRetrived(countryData)
         }
         Toast.makeText(getApplication(), "Fetching Data from DB", Toast.LENGTH_LONG).show()
