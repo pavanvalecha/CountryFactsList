@@ -6,5 +6,5 @@
     <fragment
         android:id="@+id/countryListFragment"
         android:name="prv.com.countryfacts.view.CountryListFragment"
-        android:label="CountryListFragment" />
+        android:label="@string/app_name" />
 </navigation>

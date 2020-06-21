@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">CountryFacts</string>
+    <string name="app_name">Country Facts</string>
     <string name="load_error">An error occurred while loading data!</string>
 </resources>

@@ -1,6 +1,5 @@
 package prv.com.countryfacts.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -18,4 +17,9 @@ class MainActivity : BaseActivity() {
         navigationController = Navigation.findNavController(this, R.id.fragment)
         NavigationUI.setupActionBarWithNavController(this, navigationController)
     }
+
+    fun setActionBarTitle(title: String?) {
+        supportActionBar!!.title = title
+    }
+
 }

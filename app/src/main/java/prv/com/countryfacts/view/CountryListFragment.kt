@@ -1,15 +1,14 @@
 package prv.com.countryfacts.view
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_country_list.*
-
 import prv.com.countryfacts.R
 import prv.com.countryfacts.models.CountryFact
 import prv.com.countryfacts.view.adapter.CountryFactsListAdapter
@@ -50,12 +49,17 @@ class CountryListFragment : Fragment() {
 
     }
 
+    private fun setTitle(title: String){
+        (activity as MainActivity)?.setActionBarTitle(title)
+    }
+
     fun observeViewModels(){
         viewModel.countryData.observe(this, Observer {facts ->
             facts?.let {
                 countryRecyclerView.visibility = View.VISIBLE
                 listError.visibility = View.GONE
                 progressBar.visibility = View.GONE
+                setTitle(it.title)
                 countryFactsListAdapter.updateCountryFactList(facts.rows)
             }
         })
