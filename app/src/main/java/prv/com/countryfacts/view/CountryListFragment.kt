@@ -7,17 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_country_list.*
 
 import prv.com.countryfacts.R
+import prv.com.countryfacts.models.CountryFact
+import prv.com.countryfacts.view.adapter.CountryFactsListAdapter
+import prv.com.countryfacts.viewmodels.CountryListViewModel
 
 class CountryListFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = CountryListFragment()
-    }
-
     private lateinit var viewModel: CountryListViewModel
+    private val countryFactsListAdapter = CountryFactsListAdapter(arrayListOf<CountryFact>())
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,8 +31,22 @@ class CountryListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(CountryListViewModel::class.java)
-        viewModel.fetchFromRemote()
+        viewModel.refresh()
+
+        countryRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = countryFactsListAdapter
+        }
+
         observeViewModels()
+
+        refreshLayout.setOnRefreshListener {
+            countryRecyclerView.visibility = View.GONE
+            listError.visibility = View.GONE
+            progressBar.visibility = View.VISIBLE
+            viewModel.refreshBypassCache()
+            refreshLayout.isRefreshing = false
+        }
 
     }
 
@@ -39,7 +55,8 @@ class CountryListFragment : Fragment() {
             facts?.let {
                 countryRecyclerView.visibility = View.VISIBLE
                 listError.visibility = View.GONE
-                //factsListAdapter.updateDogsList(facts)
+                progressBar.visibility = View.GONE
+                countryFactsListAdapter.updateCountryFactList(facts.rows)
             }
         })
 

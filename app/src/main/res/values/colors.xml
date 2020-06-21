@@ -3,4 +3,8 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+
+    <color name="listItemTitle">#344676</color>
+    <color name="listItemDescription">#4A4A4A</color>
+
 </resources>
