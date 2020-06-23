@@ -24,3 +24,4 @@ App Uses below Libraries
 3. GSON
 4. Room Persistance library for caching API data 
 5. Glide For Image loading
+6. Timber for logging
