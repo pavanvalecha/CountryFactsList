@@ -1,22 +1,23 @@
 package prv.com.countryfacts.util
 
 import android.content.Context
-import android.util.Log
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import prv.com.countryfacts.R
+import timber.log.Timber
 
 @BindingAdapter("android:imageUrl")
 fun loadImage(view: ImageView, url: String?){
+    Timber.d( "loadImage() - $url")
     view.loadImage(url, getProgressDrawable(view.context))
 }
 
 
 fun ImageView.loadImage(uri: String?, circularProgressDrawable: CircularProgressDrawable){
-    Log.d("loadImage()", uri.let { it ?: "null" })
+    Timber.d( uri.let { it ?: "null" })
     val options = RequestOptions.placeholderOf(circularProgressDrawable)
         .error(R.mipmap.ic_launcher)
 

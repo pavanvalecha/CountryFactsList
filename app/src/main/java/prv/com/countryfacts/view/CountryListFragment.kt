@@ -13,6 +13,7 @@ import prv.com.countryfacts.R
 import prv.com.countryfacts.models.CountryFact
 import prv.com.countryfacts.view.adapter.CountryFactsListAdapter
 import prv.com.countryfacts.viewmodels.CountryListViewModel
+import timber.log.Timber
 
 class CountryListFragment : Fragment() {
 
@@ -24,11 +25,13 @@ class CountryListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Timber.d("onCreateView()")
         return inflater.inflate(R.layout.fragment_country_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Timber.d("onViewCreated()")
         viewModel = getViewModel<CountryListViewModel>().apply { refresh() }
 
         countryRecyclerView.apply {
@@ -49,10 +52,12 @@ class CountryListFragment : Fragment() {
     }
 
     private fun setTitle(title: String){
+        Timber.d("setTitle()")
         (activity as MainActivity)?.setActionBarTitle(title)
     }
 
     fun observeViewModels(){
+        Timber.d("observeViewModels()")
         viewModel.countryData.observe(this, Observer {facts ->
             facts?.let {
                 countryRecyclerView.visibility = View.VISIBLE

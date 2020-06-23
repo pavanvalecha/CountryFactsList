@@ -14,6 +14,7 @@ import prv.com.countryfacts.db.CountryDataDAO
 import prv.com.countryfacts.models.CountryData
 import prv.com.countryfacts.remote.CountryFactsAPI
 import prv.com.countryfacts.util.SharedPreferenceHelper
+import timber.log.Timber
 
 class CountryListViewModel(application: Application,
                            val countryFactsAPI: CountryFactsAPI,
@@ -28,6 +29,7 @@ class CountryListViewModel(application: Application,
     val loading = MutableLiveData<Boolean>()
 
     fun refresh(){
+        Timber.d("refresh()")
         val updateTime = prefHelper.getUpdateTime()
         if (updateTime != null && updateTime != 0L && (System.nanoTime() - updateTime) < refreshTime)
         {
@@ -38,6 +40,7 @@ class CountryListViewModel(application: Application,
     }
 
     private fun fetchFromRemote(){
+        Timber.d("fetchFromRemote()")
         disposable.add(
             countryFactsAPI.getCountryFactData().subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -50,7 +53,7 @@ class CountryListViewModel(application: Application,
                     override fun onError(e: Throwable) {
                         error.value = true
                         loading.value = false
-                        e.printStackTrace()
+                        Timber.e(e)
                     }
 
                 })
@@ -59,14 +62,16 @@ class CountryListViewModel(application: Application,
     }
 
     private fun storeCountryDataDB(countryData: CountryData){
+        Timber.d("storeCountryDataDB()")
         launch {
             val insertedid = countryDataDAO.insertFactsAndData(countryData)
             prefHelper.saveUpdateTime(System.nanoTime())
-            Log.d("storeCountryDataDB()", "Inserted CountryData with ID - $insertedid")
+            Timber.d( "storeCountryDataDB() - Inserted CountryData with ID - $insertedid")
         }
     }
 
     private fun fetchFromDB(){
+        Timber.d("fetchFromDB()")
         loading.value = true
         launch {
             val countryData = countryDataDAO.getCountryDataDB()
@@ -76,16 +81,19 @@ class CountryListViewModel(application: Application,
     }
 
     private fun countryDatasRetrived(data: CountryData){
+        Timber.d("countryDatasRetrieved")
         countryData.postValue(data)
         error.postValue(false)
         loading.postValue(false)
     }
 
     fun refreshBypassCache(){
+        Timber.d("refreshBypassCache()")
         fetchFromRemote()
     }
 
     override fun onCleared() {
+        Timber.d("onCleared()")
         super.onCleared()
         disposable.clear()
     }

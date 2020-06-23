@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import prv.com.countryfacts.models.CountryData
 import prv.com.countryfacts.models.CountryFact
+import timber.log.Timber
 
 @Dao
 interface CountryDataDAO {
@@ -14,7 +15,7 @@ interface CountryDataDAO {
     fun insertFactsAndData(countryData: CountryData) {
         val dataId = insertAll( CountryDataEntity(title = countryData.title) )
             countryData.rows.forEach { fact ->
-                Log.d("forEach fact", "Inserted CountryFact with ID - ${fact.title}")
+                Timber.d ("forEach fact - Inserted CountryFact with ID - ${fact.title}")
                 insertCountryFact(
                     CountryFactEntity(
                         title = fact.title,
