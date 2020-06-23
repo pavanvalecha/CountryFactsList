@@ -54,6 +54,8 @@ def navVersion = '2.2.2'
 def extVersion = '2.2.0'
 def robolectricVersion  = '4.3'
 def koinVersion = '2.1.5'
+def mockitoKotlinVersion = '2.2.0'
+def mockitoVersion = '2.24.5'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -98,9 +100,13 @@ dependencies {
     testImplementation 'androidx.test:core:1.2.0'
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
 
-    androidTestImplementation 'org.mockito:mockito-android:2.24.5'
+    androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
+
+    androidTestImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
+    androidTestImplementation "org.mockito:mockito-core:$mockitoVersion"
+    androidTestImplementation "org.mockito:mockito-android:$mockitoVersion"
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation "androidx.test:runner:1.2.0"
     implementation "androidx.navigation:navigation-fragment-ktx:$navVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navVersion"
 }

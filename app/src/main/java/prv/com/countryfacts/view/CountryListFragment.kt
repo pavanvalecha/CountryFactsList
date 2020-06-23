@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_country_list.*
 import org.koin.android.viewmodel.ext.android.getViewModel
 import prv.com.countryfacts.R
+import prv.com.countryfacts.databinding.FragmentCountryListBinding
 import prv.com.countryfacts.models.CountryFact
 import prv.com.countryfacts.view.adapter.CountryFactsListAdapter
 import prv.com.countryfacts.viewmodels.CountryListViewModel
@@ -56,6 +59,10 @@ class CountryListFragment : Fragment() {
         (activity as MainActivity)?.setActionBarTitle(title)
     }
 
+    private fun showToast(toastMsg: String){
+        Toast.makeText(this@CountryListFragment.context, toastMsg, Toast.LENGTH_LONG).show()
+    }
+
     fun observeViewModels(){
         Timber.d("observeViewModels()")
         viewModel.countryData.observe(this, Observer {facts ->
@@ -71,6 +78,12 @@ class CountryListFragment : Fragment() {
         viewModel.error.observe(this, Observer{isError ->
             isError?.let {
                 listError.visibility  = if(it) View.VISIBLE else View.GONE
+            }
+        })
+
+        viewModel.toastLiveData.observe(this, Observer{toastMsg ->
+            toastMsg?.let {
+                showToast(it)
             }
         })
 

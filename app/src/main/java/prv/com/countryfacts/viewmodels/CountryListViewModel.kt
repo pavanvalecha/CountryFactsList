@@ -25,6 +25,7 @@ class CountryListViewModel(application: Application,
     private var prefHelper = SharedPreferenceHelper(getApplication())
 
     val countryData = MutableLiveData<CountryData>()
+    val toastLiveData = MutableLiveData<String>()
     val error = MutableLiveData<Boolean>()
     val loading = MutableLiveData<Boolean>()
 
@@ -48,6 +49,7 @@ class CountryListViewModel(application: Application,
                     override fun onSuccess(data: CountryData) {
                         countryData.value = data
                         storeCountryDataDB(data)
+                        toastLiveData.postValue("Fetching Data from Remote")
                     }
 
                     override fun onError(e: Throwable) {
@@ -58,8 +60,8 @@ class CountryListViewModel(application: Application,
 
                 })
         )
-        Toast.makeText(getApplication(), "Fetching Data from Remote", Toast.LENGTH_LONG).show()
     }
+
 
     private fun storeCountryDataDB(countryData: CountryData){
         Timber.d("storeCountryDataDB()")
@@ -76,8 +78,8 @@ class CountryListViewModel(application: Application,
         launch {
             val countryData = countryDataDAO.getCountryDataDB()
             countryDatasRetrived(countryData)
+            toastLiveData.postValue("Fetching Data from DB")
         }
-        Toast.makeText(getApplication(), "Fetching Data from DB", Toast.LENGTH_LONG).show()
     }
 
     private fun countryDatasRetrived(data: CountryData){

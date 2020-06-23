@@ -9,6 +9,7 @@ import com.bumptech.glide.request.RequestOptions
 import prv.com.countryfacts.R
 import timber.log.Timber
 
+
 @BindingAdapter("android:imageUrl")
 fun loadImage(view: ImageView, url: String?){
     Timber.d( "loadImage() - $url")
